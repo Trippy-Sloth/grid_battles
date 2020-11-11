@@ -4,6 +4,8 @@ export(Vector2) var hex_scale = Vector2(1, 1)
 
 var cells = []
 var layout
+var display_type
+var size
 
 enum MODES {
 	FLAT,
@@ -27,35 +29,38 @@ var orientation_pointy: Orientation = Orientation.new(sqrt(3.0), sqrt(3.0) / 2.0
 var orientation_flat: Orientation = Orientation.new(3.0 / 2.0, 0.0, sqrt(3.0) / 2.0, sqrt(3.0), 2.0 / 3.0, 0.0, -1.0 / 3.0, sqrt(3.0) / 3.0, 0.0);
 
 
-
 func _init(mode: int, cell_size: Vector2, origin: Vector2):
-	if (mode == MODES.FLAT):
-		layout = Layout.new(orientation_flat, cell_size, origin)
-	elif (mode == MODES.POINTY):
-		layout = Layout.new(orientation_pointy, cell_size, origin)
-	else:
-		push_error("The given mode is not available. Please select either FLAT({}) or POINTY({}).".format(MODES.FLAT, MODES.POINTY))
+	match mode:
+		MODES.FLAT:
+			layout = Layout.new(orientation_flat, cell_size, origin)
+		MODES.POINTY:
+			layout = Layout.new(orientation_pointy, cell_size, origin)
+		_:
+			push_error("The given mode is not available. Please select either FLAT({}) or POINTY({}).".format(MODES.FLAT, MODES.POINTY))
 
 
-func generate(size: int, _layout: int):
-	if _layout == LAYOUT.RECT:
-		_rect_layout(size)
-	elif _layout == LAYOUT.HEXAGON:
-		_hexagon_layout(size)
-	else:
-		push_error("The given layout was not found. Please provide either HEAXGON({}) or RECT({})".format(LAYOUT.HEXAGON, LAYOUT.RECT))
+func generate(_size: int, _display_type: int):
+	size = _size
+	display_type = _display_type
+	match display_type:
+		LAYOUT.RECT:
+			_rect_layout(size)
+		LAYOUT.HEXAGON:
+			_hexagon_layout(size)
+		_:
+			push_error("The given layout was not found. Please provide either HEAXGON({}) or RECT({})".format(LAYOUT.HEXAGON, LAYOUT.RECT))
 		
 
-func _rect_layout(size):
+func _rect_layout(_size):
 	var q_offset
-	for q in range(size):
+	for q in range(_size):
 		q_offset = floor(q / 2)
-		for r in range(-q_offset, size - q_offset):
+		for r in range(-q_offset, _size - q_offset):
 			cells.append(Hex.new(q, r, -q - r))
 
 
-func _hexagon_layout(size):
-	var radius = size / 2
+func _hexagon_layout(_size):
+	var radius = _size / 2
 	var r1
 	var r2
 	for x in range(-radius, radius + 1):
@@ -97,34 +102,64 @@ func direction(dir: int):
 func neighbor(hex: Hex, dir: int):
 	return hex_add(hex, direction(dir))
 
+func neighbors(hex: Hex, distance: int = 1):
+	var neighbors_list = []
+	var radius = size / 2
+	var nei
+	
+	for x in range(-distance, distance + 1):
+		for y in range(max(-distance, -x-distance), min(-x+distance, distance) + 1):
+			nei = hex_add(hex, Hex.new(x, y, -x - y))
+			if hex_valid(nei):
+				neighbors_list.append(nei)
+	return neighbors_list
 
-func hex_to_pixel(_layout: Layout, hex: Hex):
-	var orient: Orientation = _layout.orientation
-	var x = (orient.f0 * hex.x + orient.f1 * hex.y) * _layout.size.x
-	var y = (orient.f2 * hex.x + orient.f3 * hex.y) * _layout.size.y
-	return Vector2(x + _layout.origin.x, y + _layout.origin.y)
+
+func hex_valid(hex: Hex):
+	"""This function validates if the given Hex has coordinates inside the current layout"""
+	match display_type:
+		LAYOUT.RECT:
+			return (
+				hex.x >= 0 and hex.x <= size 
+				and hex.y >= 0 and hex.y <= size 
+				and hex.z >= 0 and hex.z <= size
+			)
+		LAYOUT.HEXAGON:
+			var radius = size / 2
+			print("%s, %s" % [str(hex), radius])
+			return (
+				hex.x >= -radius and hex.x <= radius 
+				and hex.y >= -radius and hex.y <= radius 
+				and hex.z >= -radius and hex.z <= radius
+			)
+
+func hex_to_pixel(hex: Hex):
+	var orient: Orientation = layout.orientation
+	var x = (orient.f0 * hex.x + orient.f1 * hex.y) * layout.size.x
+	var y = (orient.f2 * hex.x + orient.f3 * hex.y) * layout.size.y
+	return Vector2(x + layout.origin.x, y + layout.origin.y)
 
 
-func pixel_to_hex(_layout: Layout, p: Vector2):
-	var orient: Orientation = _layout.orientation
-	var point = Vector2((p.x - _layout.origin.x) / _layout.size.x, (p.y - _layout.origin.y) / _layout.size.y)
+func pixel_to_hex(p: Vector2):
+	var orient: Orientation = layout.orientation
+	var point = Vector2((p.x - layout.origin.x) / layout.size.x, (p.y - layout.origin.y) / layout.size.y)
 	var x: float = orient.b0 * point.x + orient.b1 * point.y
 	var y: float = orient.b2 * point.x + orient.b3 * point.y
 	return get_rounded_hex(x, y, -x - y)
 
 
-func hex_corner_offset(_layout: Layout, corner: int):
-	var size: Vector2 = _layout.size
-	var angle: float = 2.0 * PI * (_layout.orientation.start_angle + corner) / 6
+func hex_corner_offset(corner: int):
+	var size: Vector2 = layout.size
+	var angle: float = 2.0 * PI * (layout.orientation.start_angle + corner) / 6
 	return Vector2(size.x * cos(angle), size.y * sin(angle))
 
 
-func polygon_corners(_layout: Layout, hex: Hex):
+func polygon_corners(hex: Hex):
 	var corners = []
 	var offset: Vector2
-	var center: Vector2 = hex_to_pixel(_layout, hex)
+	var center: Vector2 = hex_to_pixel(hex)
 	for i in range(6):
-		offset = hex_corner_offset(_layout, i)
+		offset = hex_corner_offset(i)
 		corners.insert(0, Vector2(center.x + offset.x, center.y + offset.y))
 	return corners
 

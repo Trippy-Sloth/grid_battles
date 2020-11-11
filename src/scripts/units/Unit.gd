@@ -2,6 +2,8 @@ extends Node2D
 
 
 export(int) var pos_variation = 3
+export(int) var movement_range = 2
+
 var unit_distance = 15
 var speed = 50
 var current_walking = 0
