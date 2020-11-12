@@ -101,6 +101,7 @@ func _draw_hex(hex):
 
 
 func _add_unit(hex: Hex, units_display: Node = self):
+	"""TODO: This will be replaced by a map generator or loader."""
 	var unit
 	if randi() % 10 > 8:
 		unit = Leg.instance()
