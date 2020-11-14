@@ -200,7 +200,8 @@ func _target_movement(state, target_hex):
 	var unit = state["unit"]
 	
 	var distance = grid.distance(current_hex, target_hex)
-	if distance > unit.movement_range + 1:
+	print("distance: %s, mov range: %s" % [distance, unit.movement_range])
+	if distance > unit.movement_range:
 		push_warning("The selected unit cannot move %s, only %s." % [distance, unit.movement_range + 1])
 		return 
 	

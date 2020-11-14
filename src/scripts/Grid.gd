@@ -87,10 +87,11 @@ func hex_mult(a: Hex, k: int) -> Hex:
 	
 
 func length(hex: Hex):
-	return int((abs(hex.x) + abs(hex.x) + abs(hex.x)) / 2)
+	return int((abs(hex.x) + abs(hex.y) + abs(hex.z)) / 2)
 
 
 func distance(a: Hex, b: Hex):
+	print(hex_subtract(a, b))
 	return length(hex_subtract(a, b))
 
 
@@ -126,7 +127,6 @@ func hex_valid(hex: Hex):
 			)
 		LAYOUT.HEXAGON:
 			var radius = size / 2
-			print("%s, %s" % [str(hex), radius])
 			return (
 				hex.x >= -radius and hex.x <= radius 
 				and hex.y >= -radius and hex.y <= radius 
