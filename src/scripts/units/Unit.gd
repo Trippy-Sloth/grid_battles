@@ -3,8 +3,10 @@ extends Node2D
 
 export(int) var pos_variation = 3
 export(int) var movement_range = 2
+export(int) var unit_distance = 18
+export(Color) var team = Color.red
 
-var unit_distance = 15
+var color
 var speed = 50
 var current_walking = 0
 
@@ -16,7 +18,6 @@ func _ready():
 
 func move_to(target_position: Vector2):
 	"""Unit movement logic."""
-	var distance
 	var target
 	var child
 	var children = self.get_children()
@@ -24,11 +25,7 @@ func move_to(target_position: Vector2):
 		child = children[i]
 		if child is Node2D:
 			target = child.position - (target_position - position)
-			distance = child.position.distance_to(target)
-			var tween = Tween.new()
-			tween.interpolate_property(child, "position", target, _get_soldier_position(i), distance / speed)
-			add_child(tween)
-			tween.start()
+			child.move(target, _get_soldier_position(i), speed)
 	
 	position = target_position
 
