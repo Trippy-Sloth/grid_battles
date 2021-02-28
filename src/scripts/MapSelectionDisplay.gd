@@ -25,7 +25,7 @@ func reset_movement_area():
 	movement_highlights.clear()
 		
 
-func highlight_cell(hex, points):
+func highlight_cell(points):
 	if not highlight:
 		highlight = Polygon2D.new()
 		add_child(highlight)
@@ -35,8 +35,9 @@ func highlight_cell(hex, points):
 
 
 func reset_highlight():
-	remove_child(highlight)
-	highlight = null
+	if highlight:
+		remove_child(highlight)
+		highlight = null
 	
 
 func _get_identifier(x: int, y: int):

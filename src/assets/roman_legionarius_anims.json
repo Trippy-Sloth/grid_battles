@@ -1,0 +1,103 @@
+{ "frames": {
+   "roman_legionarius_anims 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 1.aseprite": {
+    "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 2.aseprite": {
+    "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 3.aseprite": {
+    "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 4.aseprite": {
+    "frame": { "x": 128, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 5.aseprite": {
+    "frame": { "x": 160, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 6.aseprite": {
+    "frame": { "x": 192, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 7.aseprite": {
+    "frame": { "x": 224, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 8.aseprite": {
+    "frame": { "x": 256, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   },
+   "roman_legionarius_anims 9.aseprite": {
+    "frame": { "x": 288, "y": 0, "w": 32, "h": 32 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 200
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.25-dev",
+  "image": "roman_legionarius_anims.png",
+  "format": "RGBA8888",
+  "size": { "w": 320, "h": 32 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "Idle", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "Walk", "from": 1, "to": 5, "direction": "forward" },
+   { "name": "Death", "from": 6, "to": 9, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Shadow", "opacity": 34, "blendMode": "normal" },
+   { "name": "Soldier", "opacity": 255, "blendMode": "normal" },
+   { "name": "Shield", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}

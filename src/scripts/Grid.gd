@@ -54,7 +54,7 @@ func generate(_size: int, _display_type: int):
 func _rect_layout(_size):
 	var q_offset
 	for q in range(_size):
-		q_offset = floor(q / 2)
+		q_offset = floor(q / float(2))
 		for r in range(-q_offset, _size - q_offset):
 			cells.append(Hex.new(q, r, -q - r))
 
@@ -68,7 +68,7 @@ func _hexagon_layout(_size):
 		r2 = min(radius, -x + radius)
 		for y in range(r1, r2 + 1):
 			cells.append(Hex.new(x, y, -x - y))
-			
+
 
 func hex_equal(a: Hex, b: Hex):
 	return a.x == b.x and a.y == b.y and a.z == b.z
@@ -91,7 +91,6 @@ func length(hex: Hex):
 
 
 func distance(a: Hex, b: Hex):
-	print(hex_subtract(a, b))
 	return length(hex_subtract(a, b))
 
 
@@ -105,7 +104,6 @@ func neighbor(hex: Hex, dir: int):
 
 func neighbors(hex: Hex, distance: int = 1):
 	var neighbors_list = []
-	var radius = size / 2
 	var nei
 	
 	for x in range(-distance, distance + 1):
@@ -149,9 +147,9 @@ func pixel_to_hex(p: Vector2):
 
 
 func hex_corner_offset(corner: int):
-	var size: Vector2 = layout.size
+	var _size: Vector2 = layout.size
 	var angle: float = 2.0 * PI * (layout.orientation.start_angle + corner) / 6
-	return Vector2(size.x * cos(angle), size.y * sin(angle))
+	return Vector2(_size.x * cos(angle), _size.y * sin(angle))
 
 
 func polygon_corners(hex: Hex):
